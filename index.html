@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AGI / ASI 倒计时 · v6.3.0（HCI 能力余量与 RSI 路线图）</title>
+<title>AGI / ASI 倒计时 · v6.3.1（HCI、RSI 路线图与大模型评测基准）</title>
 <style>
   :root{--bg:#0b0e14;--panel:#141926;--panel2:#1b2233;--line:#273044;--fg:#e6ebf5;
         --mut:#93a0b8;--acc:#5b8cff;--good:#37d39b;--warn:#f5a623;--bad:#ff6b6b;--pur:#b18cff;}
@@ -47,12 +47,29 @@
   svg{max-width:100%}
   code{background:#0e1320;padding:1px 6px;border-radius:6px;color:#cdd8f0}
   .foot{color:var(--mut);font-size:11.5px;margin-top:26px;border-top:1px solid var(--line);padding-top:14px}
+  /* v6.3.1 评测基准 */
+  .step{background:#0e1320;border:1px solid var(--line);border-radius:12px;margin:10px 0;overflow:hidden}
+  .step[open]{border-color:var(--acc)}
+  .step summary{list-style:none;cursor:pointer;padding:11px 14px;display:flex;align-items:center;gap:10px;font-weight:600}
+  .step summary::-webkit-details-marker{display:none}
+  .step .num{display:inline-flex;width:24px;height:24px;border-radius:50%;background:var(--acc);color:#fff;
+    align-items:center;justify-content:center;font-size:12.5px;flex:0 0 auto}
+  .step .meta{margin-left:auto;color:var(--mut);font-weight:400;font-size:11.5px;text-align:right}
+  .step .body{padding:0 14px 12px 48px;color:#c6d0e6;font-size:12.8px}
+  .chk{display:flex;gap:9px;align-items:flex-start;margin:9px 0;cursor:pointer;font-size:13px}
+  .chk input{width:auto;margin-top:3px}
+  .scoreline{margin-top:10px;padding:10px 12px;border-radius:10px;background:#0e1320;border:1px solid var(--line);font-size:13px}
+  .four{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+  @media(max-width:860px){.four{grid-template-columns:1fr}}
+  .gc{background:#0e1320;border:1px solid var(--line);border-radius:12px;padding:12px}
+  .gc h4{margin:0 0 6px;font-size:13.5px;color:var(--acc)}
+  .gc ul{margin:6px 0 0;padding-left:16px}.gc li{margin:3px 0;font-size:12.3px;color:#c6d0e6}
 </style>
 </head>
 <body>
 <header>
-  <h1>AGI / ASI 倒计时仪表盘 <span class="tag">v6.3.0</span></h1>
-  <div class="sub">可解释 · 可追溯 · 可证伪的智能度量衡 ｜ 本版新增 <b>HCI 能力余量闭合指数</b> 与 <b>RSI 五级路线图</b>（Theseus Labs, arXiv:2609.11873）</div>
+  <h1>AGI / ASI 倒计时仪表盘 <span class="tag">v6.3.1</span></h1>
+  <div class="sub">可解释 · 可追溯 · 可证伪的智能度量衡 ｜ <b>HCI 能力余量闭合指数</b>、<b>RSI 五级路线图</b>（Theseus Labs, arXiv:2609.11873），v6.3.1 新增 <b>大模型评测基准：AI 分数是怎么测出来的</b></div>
 </header>
 <div class="wrap">
   <div class="banner" id="evidenceBanner"></div>
@@ -63,6 +80,7 @@
     <button data-t="future">未来 · 预言与结算</button>
     <button data-t="hci">v6.3 · HCI 余量</button>
     <button data-t="rsi">v6.3 · RSI 路线图</button>
+    <button data-t="bench">v6.3.1 · 评测基准</button>
   </nav>
 
   <!-- ============ 总览 ============ -->
@@ -172,12 +190,93 @@
     </div>
   </section>
 
+  <!-- ============ 评测基准 v6.3.1 ============ -->
+  <section class="tab" id="tab-bench">
+    <div class="card">
+      <h3>大模型评测基准（Benchmark）是什么</h3>
+      <div class="small">评测基准不是一张试卷，而是一套预先设计的<b>测量规则</b>，由四部分组成：
+        <b>① 测试对象</b>（测知识/推理/代码/对话还是工具使用）、<b>② 测试数据</b>（让模型答哪些题）、
+        <b>③ 执行协议</b>（怎么提问、生成多长、给不给示例/工具）、<b>④ 评分方法</b>（怎么判好坏、怎么汇总）。
+        排行榜上的一个数字，是模型在<b>这套特定规则</b>下留下的一次测量结果，而不是模型的完整能力。</div>
+      <div class="banner" style="margin:12px 0 0">一句话流程：<b>确定能力 → 准备题库 → 统一作答条件 → 收集回答 → 选择评分器 → 汇总结果与排名</b>。点开每一步看要点。</div>
+      <details class="step" open><summary><span class="num">1</span>确定能力<span class="meta">知识｜推理｜代码｜对话</span></summary>
+        <div class="body">“哪个模型最好”无法直接测量，要拆成具体目标：事实问答、数学逻辑推理、可运行代码、复杂指令遵循、长文本检索、安全/稳定/成本。
+        HELM 的思路是不只看准确率，而在不同场景同时观察<b>校准、鲁棒性、公平性、偏见、毒性、效率</b>等指标。</div></details>
+      <details class="step"><summary><span class="num">2</span>准备题库<span class="meta">公开数据｜人工案例｜动态新题</span></summary>
+        <div class="body">题目来自公开考试、专业数据集、人工案例、真实用户问题或程序动态生成。可靠题库要求：题目真的对应目标能力、难度能区分水平、
+        标准答案/评分标准清楚、覆盖多语言多行业，并防范<b>数据污染</b>——模型若在训练时见过题，就从“现场解题”变成“回忆答案”。
+        LiveBench 用定期更新的近期新题 + 尽量客观评分来降低污染。</div></details>
+      <details class="step"><summary><span class="num">3</span>统一作答条件<span class="meta">提示词｜参数｜工具权限｜模型版本</span></summary>
+        <div class="body">正式评测需固定：系统提示词与题目模板、是否给 few-shot 示例、温度与最大输出长度、<b>是否允许联网/运行代码/调用工具</b>、
+        每题运行一次还是多次、使用哪个模型版本与接口。一个能联网、一个不能联网，比的就不只是模型本身。</div></details>
+      <details class="step"><summary><span class="num">4</span>收集回答<span class="meta">同题运行｜必要时重复测试</span></summary>
+        <div class="body">在相同协议下让所有模型作答并留存原始输出；对随机性强、不稳定的任务要<b>重复运行多次</b>，才能估计结果的波动范围，而不是被一次运气误导。</div></details>
+      <details class="step"><summary><span class="num">5</span>选择评分器<span class="meta">标准答案｜规则测试｜模型裁判｜人类偏好</span></summary>
+        <div class="body">开放题与客观题需要不同评分器，四类评分器各有适用边界（见下方对照）。评分器本身的偏差会直接变成分数偏差。</div></details>
+      <details class="step"><summary><span class="num">6</span>汇总结果<span class="meta">单项得分｜权重｜总分｜排名</span></summary>
+        <div class="body">模型通常要答数百到数万题，先算每个任务的正确率/通过率/偏好胜率，再用平均、加权平均或统计模型合成总分。
+        这里最容易藏三个问题：<b>各任务权重是否相同、总分是否掩盖明显短板、模型间微小差距是否具有统计显著性</b>。</div></details>
+    </div>
+
+    <div class="card" style="margin-top:14px">
+      <h3>四类评分器（谁来打分）</h3>
+      <div class="four">
+        <div class="gc"><h4>① 标准答案评分</h4><div class="small">选择/计算/部分代码题，直接判对错</div>
+          <ul><li>优点：清楚、可复现</li><li>风险：只适合有唯一答案的任务</li><li>代表：MMLU 选择题</li></ul></div>
+        <div class="gc"><h4>② 规则 / 测试用例</h4><div class="small">代码跑单测、结构校验格式、抽取比对字段</div>
+          <ul><li>优点：比文字匹配更贴近任务结果</li><li>风险：测试用例可能覆盖不全</li><li>代表：HumanEval/MBPP 单测</li></ul></div>
+        <div class="gc"><h4>③ 大模型裁判</h4><div class="small">让另一个模型按标准评写作/总结/开放问答</div>
+          <ul><li>优点：快、成本低</li><li>风险：位置偏差、冗长偏差、自我偏好</li><li>代表：LLM-as-a-judge</li></ul></div>
+        <div class="gc"><h4>④ 人类偏好评分</h4><div class="small">匿名两份回答二选一，大量比较形成排名</div>
+          <ul><li>优点：最贴近真实使用感受</li><li>风险：受人群/题分布/票数影响，成本高</li><li>代表：Chatbot Arena</li></ul></div>
+      </div>
+    </div>
+
+    <div class="grid g2" style="margin-top:14px">
+      <div class="card"><h3>常见基准各测什么</h3><table>
+        <tr><th>基准</th><th>测量重点 / 评分方式</th></tr>
+        <tr><td>MMLU</td><td class="small">57 个任务选择题，跨学科知识与解题；标准答案评分</td></tr>
+        <tr><td>Chatbot Arena</td><td class="small">用户对匿名回答两两偏好投票，Elo 类排名；人类偏好</td></tr>
+        <tr><td>HELM</td><td class="small">多场景同时看准确率/校准/鲁棒性/公平/偏见/毒性/效率；多维加权</td></tr>
+        <tr><td>LiveBench</td><td class="small">定期加入近期新题、尽量客观评分，降低数据污染</td></tr>
+      </table></div>
+      <div class="card"><h3>为什么同一模型排名会变</h3>
+        <div class="small">不同排行榜可能使用不同的：能力定义、题目、提示词模板、生成参数、工具权限、裁判模型、汇总权重、模型版本。
+        “A 在某榜超过 B”只代表<b>在这套题、协议与评分规则下</b>A 更高，不能自动推出 A 在所有真实任务中都更好。</div>
+        <table style="margin-top:8px"><tr><th>分数失真来源</th><th>含义</th></tr>
+        <tr><td class="b">数据污染</td><td class="small">测试题进入过训练集，考的是记忆</td></tr>
+        <tr><td class="w">提示词敏感</td><td class="small">问法/模板/示例不同，答案就变</td></tr>
+        <tr><td class="p">裁判偏差</td><td class="small">模型裁判偏好长答案、特定位置或自家风格</td></tr></table>
+      </div>
+    </div>
+
+    <div class="grid g2" style="margin-top:14px">
+      <div class="card"><h3>看排行榜前先问这 6 个问题（勾选自检）</h3>
+        <div id="benchQ"></div>
+        <div class="scoreline" id="benchQScore">—</div>
+        <div class="small" style="margin-top:8px">勾得越多，这份榜单对你越可读；若这些信息不公开，小数点后两位通常没有看起来可靠。</div>
+      </div>
+      <div class="card"><h3>自建小型评测向导（贴合你自己的工作）</h3>
+        <div class="small">综合榜单不能替代你自己的任务集。按下面清单准备，并填写任务数量：</div>
+        <div id="ownQ" style="margin-top:6px"></div>
+        <div class="small" style="margin-top:8px">真实任务数量：<input id="ownN" type="number" value="25" min="1" max="500"
+          style="width:90px;display:inline-block"> 个（建议 20–50）</div>
+        <div class="scoreline" id="ownScore">—</div>
+      </div>
+    </div>
+    <div class="card" style="margin-top:14px">
+      <h3>合成总分时别丢信息</h3>
+      <div class="small">一个模型数学领先很多、写作稍弱，另一个更均衡，两者总分可能接近，却适合完全不同场景。
+      看榜时同时要<b>单项分布</b>与<b>置信/显著性</b>，而不是只看总榜名次。小样本自建评测不能证明模型“全面最强”，但能回答更实际的问题：<b>哪个模型更适合你的工作</b>。</div>
+    </div>
+  </section>
+
   <div class="foot">
     <b>证据分级</b>：<span class="ev verified">verified</span> 本页公式与计算（HCI/聚合/RSI 投影/蒙特卡洛，固定种子可复算）；
     <span class="ev proto">cpu-proto / 示例</span> 评分、先验、系数曲线为种子数据，待真实数据回测；
     <span class="ev gate">闸门</span> 联网 collector+cron、多 LLM 交叉评分、PostgreSQL/双云部署、域名/ICP/HTTPS 需服务器与实名，未在本离线页运行。<br>
     纯静态、零第三方依赖、可 file:// 离线打开。数据源：Theseus Labs《The Last AI Built by Humans》arXiv:2609.11873；
-    The AGI Clock / Metaculus / AI 2027 Tracker 等为联网版采集对象。本页不构成投资建议。
+    The AGI Clock / Metaculus / AI 2027 Tracker 等为联网版采集对象。v6.3.1「评测基准」页为方法学科普，依据 MMLU / HELM / Chatbot Arena / LiveBench 等公开基准资料整理，不含新测量数据。本页不构成投资建议。
   </div>
 </div>
 
@@ -422,7 +521,63 @@ function renderRSI(){
    ind.map(r=>`<tr><td>${r[0]}</td><td class="small">${r[1]}</td></tr>`).join("");
 }
 
-renderDash();renderPast();renderNow();renderFuture();renderHCI();renderRSI();
+/* ============================ v6.3.1 评测基准 ============================ */
+function benchReadability(checked,total){return Math.round(checked/total*100);}
+function benchReadLabel(p){
+  if(p>=84)return "可读性高：关键口径基本公开，可据此比较模型。";
+  if(p>=50)return "可读性中等：部分口径缺失，结论需保留。";
+  return "可读性低：信息不足以支撑可靠比较，别只看名次。";
+}
+function ownReadiness(checked,total,n){
+  const step=Math.round(checked/total*100);
+  const nOk=n>=20;
+  let label=step>=83&&nOk?"流程齐备：可以得到对你工作有参考价值的小评测。"
+            :"尚未齐备：先补齐勾选项"+(nOk?"":"，并把任务数提到 20–50 个")+"。";
+  return {step,nOk,label};
+}
+function renderBench(){
+  const qs=[
+    "它测的是哪一种能力？",
+    "题目来自哪里，是否可能发生数据污染？",
+    "模型能否使用联网、代码或其他工具？",
+    "开放题由人、规则还是大模型裁判评分？",
+    "展示的是单项结果，还是加权后的总分？",
+    "模型版本、测试时间和运行参数是否公开？"
+  ];
+  const own=[
+    "选出 20–50 个贴近真实工作的任务",
+    "删除客户信息与其他敏感数据",
+    "为每个任务写出明确的通过条件",
+    "对所有模型使用相同提示词与工具权限",
+    "对不稳定的任务重复运行",
+    "同时记录质量、速度、成本与失败类型"
+  ];
+  const qbox=document.getElementById("benchQ");
+  qbox.innerHTML=qs.map((q,i)=>
+    `<label class="chk"><input type="checkbox" class="bq" data-i="${i}"><span>${q}</span></label>`).join("");
+  const obox=document.getElementById("ownQ");
+  obox.innerHTML=own.map((q,i)=>
+    `<label class="chk"><input type="checkbox" class="oq" data-i="${i}"><span>${q}</span></label>`).join("");
+  function refreshQ(){
+    const c=document.querySelectorAll(".bq:checked").length;
+    const p=benchReadability(c,qs.length);
+    document.getElementById("benchQScore").innerHTML=
+      `已确认 <b>${c}/${qs.length}</b> · 榜单可读性 <b class="${p>=84?'v':p>=50?'w':'b'}">${p}%</b><br><span class="small">${benchReadLabel(p)}</span>`;
+  }
+  function refreshOwn(){
+    const c=document.querySelectorAll(".oq:checked").length;
+    const n=parseInt(document.getElementById("ownN").value||"0",10);
+    const r=ownReadiness(c,own.length,n);
+    document.getElementById("ownScore").innerHTML=
+      `步骤完成 <b>${c}/${own.length}</b>（${r.step}%）· 任务数 <b class="${r.nOk?'v':'w'}">${n}</b> ${r.nOk?'达标':'建议 20–50'}<br><span class="small">${r.label}</span>`;
+  }
+  qbox.querySelectorAll(".bq").forEach(x=>x.onchange=refreshQ);
+  obox.querySelectorAll(".oq").forEach(x=>x.onchange=refreshOwn);
+  document.getElementById("ownN").oninput=refreshOwn;
+  refreshQ();refreshOwn();
+}
+
+renderDash();renderPast();renderNow();renderFuture();renderHCI();renderRSI();renderBench();
 </script>
 </body>
 </html>
