@@ -1,4 +1,4 @@
-# AGI / ASI 倒计时网站 v6.3.1（离线静态版）
+# AGI / ASI 倒计时网站 v6.3.2（离线静态版）
 
 零依赖、零构建、零后端：**双击 `index.html` 即可在浏览器离线打开（file://）**。
 本版在 HCI（能力余量闭合指数）与 RSI 五级路线图之外，新增 **「大模型评测基准：AI 分数是怎么测出来的」** 页签，
@@ -18,6 +18,7 @@
 | **v6.3 HCI 余量** | HCI 公式实时计算器、√N 加权聚合演示、10 领域 2026 HCI 条形图、RSI 上限投影 | **公式与文章数值已复算一致（verified）** |
 | **v6.3 RSI 路线图** | L1–L5 自主权阶梯、人机责任划分、72 家产业映射、L5 四问 | 内容据 Theseus Labs 公开报告 |
 | **v6.3.1 评测基准** | 基准四要素、6 步出分流程（可展开）、四类评分器对照、MMLU/Arena/HELM/LiveBench、分数为何变化、看榜 6 问自检清单（实时打分）、20–50 题自建小评测向导 | 方法学科普，据公开基准资料整理，不含新测量数据 |
+| **v6.3.2 引用** | 评测基准页补全 5 篇原文角标与可点击参考来源（MMLU/HELM/Arena/LLM-as-judge/LiveBench） | arXiv 原文链接 |
 
 ## 本版核心公式（均在 JS 中实时计算，非写死）
 - HCI = (当前分 − 基准分) / (100 − 基准分) × 100；基准=评测首年 p90。
@@ -28,7 +29,9 @@
 
 ## 数据来源
 Theseus Labs《The Last AI Built by Humans: Toward Genuine Recursive Self-Improvement》
-arXiv:2609.11873（HCI、RSI L1–L5、产业信号）。倒计时/能力评分为示例先验，
+arXiv:2609.11873（HCI、RSI L1–L5、产业信号）。
+评测基准页原文：MMLU arXiv:2009.03300、HELM arXiv:2211.09110、Chatbot Arena arXiv:2403.04132、
+LLM-as-a-Judge arXiv:2306.05685、LiveBench arXiv:2406.19314。倒计时/能力评分为示例先验，
 联网版采集对象：Artificial Analysis、LMArena、LLM-Stats、Epoch AI、OpenCompass、
 Metaculus、The AGI Clock、AI 2027 Tracker。
 
